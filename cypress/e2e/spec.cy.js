@@ -1,17 +1,21 @@
+const owner = require("../sectors/owner")
+
 describe('template spec', () => {
+
+  const titular = new owner()
 
   beforeEach(() => {
     cy.visit('https://product-onboarding.vercel.app/');
   });
   context('carga formulario',()=>{
-    it('Cuenta humana desktop', () => {
+    it.only('Cuenta humana desktop', () => {
 
-      //titular
       cy.get('.css-1fkas3c').click()
       cy.get('[aria-label="Agregar nuevo"] > .MuiButton-root').click()
-      cy.get('.px-16 > :nth-child(1) > :nth-child(2) > .MuiGrid-container > :nth-child(2)').type('40534343')
+      //owner
+      titular.getDni().type('40534343')
       cy.wait(3000)//para ver si carga algun dato
-      cy.get('input[name="tax_id_number"]').type('10405344942')//identificar por name
+      titular.getCuil().type('10405344942')//identificar por name
       cy.get('div > input[name="first_name"]').type('ramon')//indentificar por un elemento de ntro de otro "child combinator"
       cy.get('div > input[name="first_name"]').type('{selectall}{backspace}').type('lucas')//en caso de que se presente un autocompletado por documento y se quiera cambiar
       cy.get('div div div div div input[name="middle_name"]').type('ruben')//descendant combinator, se para en todas las combinaciones q cumplan la condicion (pueden ser mas de una)
@@ -39,7 +43,7 @@ describe('template spec', () => {
       cy.get(':nth-child(3) > .MuiFormControl-root > .MuiFormGroup-root > :nth-child(2) > .MuiRadio-root > .PrivateSwitchBase-input').click()
       cy.get('div > button[type="submit"]').click()
        
-      //Cuenta Bank
+      //bankAccount
       
       cy.get(':nth-child(2) > .flex > [aria-label="Agregar nuevo"] > .MuiButton-root').click()
       cy.get('div input[name="routing"]').type('5891317811100074931212');
@@ -53,7 +57,7 @@ describe('template spec', () => {
       cy.contains('USD').click()
       cy.get('.justify-end > .MuiButton-contained').click()
 
-      //Perfil
+      //profile
       cy.wait(1200)
       cy.get(':nth-child(3) > .flex > .MuiButton-root').click()
       cy.get(':nth-child(1) > .MuiFormControl-root > .MuiFormGroup-root > :nth-child(2) > .MuiTypography-root').click();
@@ -63,7 +67,7 @@ describe('template spec', () => {
       cy.get('div > button[type="submit"]').click()
       cy.get('.MuiDialogActions-root > .MuiButton-contained').click()
 
-      //confirmar apertura
+      //menu
       cy.get(':nth-child(2) > .MuiFormControlLabel-root > .MuiCheckbox-root > .PrivateSwitchBase-input').click()
       cy.get(':nth-child(3) > .MuiFormControlLabel-root > .MuiCheckbox-root > .PrivateSwitchBase-input').click()
       cy.get('.css-fv3lde > .MuiButton-root').click()
@@ -72,7 +76,7 @@ describe('template spec', () => {
       cy.wait(2000)
       cy.get('.MuiDialogActions-root > .MuiButton-contained').click()
 
-      //Apertura cuenta
+      //accountOpening
       const escudo = "escudo.jpg"
       //drop y foto uno
       cy.get(':nth-child(2) > .MuiPaper-root > .w-full.flex > .flex > .MuiButton-root').click()
